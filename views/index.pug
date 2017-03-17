@@ -1,39 +1,16 @@
-html
-  hmtl
-    body
-      script.
-        window.fbAsyncInit = () => {
-          const env = "#{env}";
+doctype html
+html(lang='en')
+  head
+    script(type='text/javascript').
+      window.env = "#{env}"; // Workaround to reference `env` from `res.render('index.html', {env})`
+    script(src='/javascripts/index.js').
 
-          FB.init({
-            appId: env === 'dev' ? '1248187438583574' : '1210709702331348',
-            xfbml: true,
-            version: 'v2.8'
-          });
+    style.
+      font-family: 'Trebuchet MS, sans-serif';
 
-          FB.AppEvents.logPageView();
-        }
-
-        ((d, s, id) => {
-          let js = d.getElementsByTagName(s)[0]
-          const fjs = d.getElementsByTagName(s)[0]
-
-          if (d.getElementById(id)) {
-            return
-          }
-
-          js = d.createElement(s)
-          js.id = id
-          js.src = 'https://connect.facebook.net/en_US/sdk.js'
-          fjs.parentNode.insertBefore(js, fjs)
-        })(document, 'script', 'facebook-jssdk')
-
-        // Only works after `FB.init` is called
-        function myFacebookLogin() {
-          FB.login(() =>
-            FB.api('/me/posts', res => console.log(res))
-          , {scope: 'user_posts'})
-        }
-
-      button(onclick='myFacebookLogin()')
+  body
+    div(style='text-align:center; padding:50px 0')
+      h1 Social Media NLP
+      br
+      button(onclick='loginClickHandler()')
         | Login with Facebook
