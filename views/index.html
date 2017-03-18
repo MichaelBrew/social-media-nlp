@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      font-family: 'Trebuchet MS, sans-serif';
+    </style>
+    <script>
+      ((d, tag, id) => {
+        let js = d.getElementsByTagName(tag)[0]
+        const fjs = d.getElementsByTagName(tag)[0]
+
+        if (d.getElementById(id)) {
+          return
+        }
+
+        js = d.createElement(tag)
+        js.id = id
+        js.src = 'https://connect.facebook.net/en_US/sdk.js'
+        fjs.parentNode.insertBefore(js, fjs)
+      })(document, 'script', 'facebook-jssdk')
+
+      function fbAsyncInit() {
+        const devAppId = '1248187438583574'
+        const prodAppId = '1210709702331348'
+
+        FB.init({
+          appId: devAppId,
+          xfbml: true,
+          version: 'v2.8'
+        })
+
+        FB.AppEvents.logPageView()
+      }
+
+      // Only works after `FB.init` is called
+      function login(opts = {}) {
+        return new Promise((resolve, reject) => {
+          FB.login(res => {
+            return res.authResponse
+              ? resolve()
+              : reject()
+          }, opts)
+        })
+      }
+
+      function getWallPosts() {
+        return new Promise((resolve, reject) => {
+          FB.api('/me/posts', res => {
+            console.log('getWallPosts: res = ', res)
+            return (!res || res.error)
+              ? reject(res.error)
+              : resolve(res.data)
+          })
+        })
+      }
+
+      function httpReq(url, verb = 'GET', data) {
+        return new Promise((resolve, reject) => {
+          const xmlHttp = new XMLHttpRequest()
+
+          xmlHttp.onreadystatechange = () => {
+            if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+              resolve(xmlHttp.responseText)
+            } else if (xmlHttp.status !== 200) {
+              reject()
+            }
+          }
+
+          xmlHttp.open(verb, url, true) // true for asynchronous
+          xmlHttp.send(data) // TODO: Fix sending data
+        })
+      }
+
+      function loginClickHandler() {
+        login({scope: 'user_posts'})
+          .then(() => getWallPosts())
+          .then(posts => httpReq('/posts/analyze', 'POST', {posts}))
+          .then(analyzed => console.log(analyzed))
+          .catch(err => console.error(err))
+      }
+    </script>
+  </head>
+  <body>
+    <div style="text-align:center; padding:50px 0">
+      <h1>Social Media NLP</h1><br>
+      <button onclick="loginClickHandler()">Login with Facebook</button>
+    </div>
+  </body>
+</html>
