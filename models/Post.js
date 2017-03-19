@@ -1,11 +1,8 @@
 const sentiment = require('sentiment')
 
 function analyze(posts) {
-  console.log(`Post.analyze: posts = `, posts)
-
-  return posts.map(post => ({
-    post,
-    sentiment: sentiment(post)
+  return posts.map(post => Object.assign({}, post, {
+    sentiment: sentiment(post.message)
   }))
 }
 

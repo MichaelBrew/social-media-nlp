@@ -22,12 +22,11 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname + '/views/index.html'))
+  res.sendFile(path.join(`${__dirname}/views/index.html`))
 })
 
 app.post('/posts/analyze', (req, res) => {
-  console.log(`app: req.body = `, req.body)
-  res.send(Post.analyze(req.body))
+  res.send(Post.analyze(req.body.posts))
 })
 
 // Catch 404 and forward to error handler
