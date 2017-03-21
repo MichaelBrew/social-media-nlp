@@ -26,7 +26,8 @@ app.get('/', (req, res) => {
 })
 
 app.post('/posts/analyze', (req, res) => {
-  res.send(Post.analyze(req.body.posts))
+  // TODO: Fix bug with req.body.posts being weirdly formatted array
+  res.send(Post.analyze(req.body))
 })
 
 // Catch 404 and forward to error handler
