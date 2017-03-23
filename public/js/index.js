@@ -26,11 +26,11 @@ function loginClickHandler() {
       $.ajax({
         type: 'POST',
         url: '/posts/analyze',
-        data: {posts},
-        dataType: 'json'
+        data: {posts: JSON.stringify(posts)},
+        dataType: 'json',
         success: resolve
       })
     ))
-    .then(analyzed => console.log(analyzed))
-    .catch(err => console.error(err))
+    .then(console.log)
+    .catch(console.err)
 }

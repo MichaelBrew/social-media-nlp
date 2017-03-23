@@ -4,9 +4,9 @@ const favicon = require('serve-favicon')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
+const sentiment = require('sentiment')
 
 const app = express()
-const Post = require('./models/Post.js')
 
 // View engine setup
 app.set('view engine', 'pug')
@@ -26,8 +26,11 @@ app.get('/', (req, res) => {
 })
 
 app.post('/posts/analyze', (req, res) => {
-  // TODO: Fix bug with req.body.posts being weirdly formatted array
-  res.send(Post.analyze(req.body))
+  const analyzed = JSON.parse(req.body.posts).map(post => Object.assign({}, post, {
+    sentiment: sentiment(post.message)
+  }))
+
+  res.send(analyzed)
 })
 
 // Catch 404 and forward to error handler
