@@ -26,9 +26,8 @@ app.get('/', (req, res) => {
 })
 
 app.post('/posts/analyze', (req, res) => {
-  const analyzed = JSON.parse(req.body.posts).map(post => Object.assign({}, post, {
-    sentiment: sentiment(post.message)
-  }))
+  const analyzed = JSON.parse(req.body.posts)
+    .map(post => Object.assign({}, post, {sentiment: sentiment(post.message)}))
 
   res.send(analyzed)
 })

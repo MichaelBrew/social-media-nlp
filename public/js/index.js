@@ -21,9 +21,7 @@ function getWallPosts() {
 
 function insertPostsTable(posts) {
   const table = document.createElement('table')
-
   const headerRow = document.createElement('th')
-
   const messageTitleCell = document.createElement('td')
     .appendChild(document.createTextNode('Post'))
   const analysisTitleCell = document.createElement('td')
@@ -31,14 +29,12 @@ function insertPostsTable(posts) {
 
   headerRow.appendChild(messageTitleCell)
   headerRow.appendChild(analysisTitleCell)
-
   table.appendChild(headerRow)
 
   for (const post of posts) {
     const row = document.createElement('tr')
 
     let analysisScore = ':|'
-
     if (post.sentiment.score < 0) {
       analysisScore = ':('
     } else if (post.sentiment.score > 0) {
@@ -68,7 +64,9 @@ async function loginClickHandler() {
     $.ajax({
       type: 'POST',
       url: '/posts/analyze',
-      data: {posts: JSON.stringify(posts.filter(({message}) => message != null))},
+      data: {
+        posts: JSON.stringify(posts.filter(({message}) => message != null))
+      },
       dataType: 'json',
       success: resolve
     })
