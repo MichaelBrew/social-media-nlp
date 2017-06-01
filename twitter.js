@@ -1,16 +1,17 @@
 require('dotenv').config()
 
-const Twitter = require('twitter')
-const sentiment = require('sentiment')
-const _ = require('lodash')
+const Twitter = require('twitter');
+const sentiment = require('sentiment');
+const _ = require('lodash');
 
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
   consumer_secret: process.env.CONSUMER_SECRET,
   bearer_token: process.env.BEARER_TOKEN
-})
+});
 
-client.get(`https://api.twitter.com/1.1/search/tweets.json?q=${process.env.KEYWORD}&src=typd`, {})
+client
+  .get(`https://api.twitter.com/1.1/search/tweets.json?q=${process.env.KEYWORD}&src=typd`, {})
   .then(res => {
     const analyzedStatuses = res.statuses.map(({text}) => {
       const {score} = sentiment(text)
@@ -27,10 +28,8 @@ client.get(`https://api.twitter.com/1.1/search/tweets.json?q=${process.env.KEYWO
         analysis = 'good'
       }
 
-
-
       return {text, sentiment: analysis}
     })
 
     console.log(analyzedStatuses)
-  })
+  });
