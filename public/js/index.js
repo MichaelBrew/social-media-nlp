@@ -1,12 +1,11 @@
-// Only works after `FB.init` is called
 function login(opts = {}) {
   return new Promise((resolve, reject) => {
     FB.login(res => {
       return res.authResponse
         ? resolve()
-        : reject()
-    }, opts)
-  })
+        : reject();
+    }, opts);
+  });
 }
 
 function getWallPosts() {
@@ -14,52 +13,43 @@ function getWallPosts() {
     FB.api('/me/posts', res => {
       return (!res || res.error)
         ? reject(res.error)
-        : resolve(res.data)
-    })
-  })
+        : resolve(res.data);
+    });
+  });
 }
 
 function insertPostsTable(posts) {
-  const table = document.createElement('table')
-  const headerRow = document.createElement('th')
-  const messageTitleCell = document.createElement('td')
-    .appendChild(document.createTextNode('Post'))
-  const analysisTitleCell = document.createElement('td')
-    .appendChild(document.createTextNode('Sentiment Score'))
-
-  headerRow.appendChild(messageTitleCell)
-  headerRow.appendChild(analysisTitleCell)
-  table.appendChild(headerRow)
+  const table = document.getElementById('analyzed-posts-table');
+  table.style.display = 'inherit';
 
   for (const post of posts) {
-    const row = document.createElement('tr')
+    const row = document.createElement('tr');
 
-    let analysisScore = ':|'
+    let analysisScore = 'Meh';
     if (post.sentiment.score < 0) {
-      analysisScore = ':('
+      analysisScore = 'Nice!';
     } else if (post.sentiment.score > 0) {
-      analysisScore = ':)'
+      analysisScore = 'Boooo';
     }
 
-    const messageNode = document.createTextNode(post.message)
-    const analysisNode = document.createTextNode(analysisScore)
+    const analysisCell = document.createElement('td');
+    analysisCell.appendChild(document.createTextNode(analysisScore));
+    row.appendChild(analysisCell);
 
-    const postCell = document.createElement('td').appendChild(messageNode)
-    const analysisCell = document.createElement('td').appendChild(analysisNode)
+    const postCell = document.createElement('td');
+    postCell.appendChild(document.createTextNode(`(${post.createdAt}) ${post.message}`));
+    row.appendChild(postCell);
 
-    row.appendChild(postCell)
-    row.appendChild(analysisCell)
-
-    table.appendChild(row)
+    table.appendChild(row);
   }
 
-  document.body.appendChild(table)
+  document.body.appendChild(table);
 }
 
 async function loginClickHandler() {
-  await login({scope: 'user_posts'})
+  await login({scope: 'user_posts'});
 
-  const posts = await getWallPosts()
+  const posts = await getWallPosts();
   const analyzedPosts = await new Promise(resolve =>
     $.ajax({
       type: 'POST',
@@ -69,8 +59,8 @@ async function loginClickHandler() {
       },
       dataType: 'json',
       success: resolve
-    })
-  )
+    });
+  );
 
-  insertPostsTable(analyzedPosts)
+  insertPostsTable(analyzedPosts);
 }

@@ -34,6 +34,7 @@
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="js/index.js"></script>
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <div style="text-align:center; padding:50px 0">
@@ -42,6 +43,16 @@
       <button onclick="loginClickHandler()">
         Login with Facebook
       </button>
+      <table id="analyzed-posts-table" style="display: none">
+        <colgroup>
+          <col style="width: 15%" />
+          <col style="width: 85%" />
+        </colgroup>
+        <tr>
+          <th>Sentiment</th>
+          <th>Post</th>
+        </tr>
+      </table>
     </div>
   </body>
 </html>

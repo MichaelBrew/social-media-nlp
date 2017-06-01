@@ -5,8 +5,9 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const sentiment = require('sentiment');
+const moment = require('moment');
 
-const app = express()
+const app = express();
 
 // View engine setup
 app.set('view engine', 'ejs');
@@ -28,6 +29,7 @@ app.get('/', (req, res) => {
 app.post('/posts/analyze', (req, res) => {
   const analyzed = JSON.parse(req.body.posts)
     .map(post => Object.assign({}, post, {
+      createdAt: moment(post.created_time).format('MMM Do, YYYY'),
       sentiment: sentiment(post.message)
     }));
 
