@@ -4,10 +4,11 @@ import * as http from 'http';
 const port = normalizePort(process.env.PORT || '3000')
 app.set('port', port)
 
-const server = http.createServer(app)
-server.listen(port)
-server.on('error', onError)
-server.on('listening', onListening)
+const server = http
+  .createServer(app)
+  .listen(port)
+  .on('error', onError)
+  .on('listening', onListening)
 
 function normalizePort(val) {
   const port = parseInt(val, 10)
