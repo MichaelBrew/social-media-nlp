@@ -50,17 +50,17 @@ async function loginClickHandler() {
   await login({scope: 'user_posts'});
 
   const posts = await getWallPosts();
-  const analyzedPosts = await new Promise(resolve =>
+  const analyzedPosts = await new Promise(resolve => {
     $.ajax({
       type: 'POST',
       url: '/posts/analyze',
+      dataType: 'json',
       data: {
         posts: JSON.stringify(posts.filter(({message}) => message != null))
       },
-      dataType: 'json',
       success: resolve
     });
-  );
+  });
 
   insertPostsTable(analyzedPosts);
 }
