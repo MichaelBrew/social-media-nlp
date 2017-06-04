@@ -4,6 +4,8 @@ const Twitter = require('twitter');
 const sentiment = require('sentiment');
 const _ = require('lodash');
 
+const API_URL = 'https://api.twitter.com/1.1';
+
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
   consumer_secret: process.env.CONSUMER_SECRET,
@@ -28,7 +30,7 @@ function startStreaming() {
 
 // TODO: Use application-only auth w/ bearer token
 function getKeywordTweets() {
-  client.get(`https://api.twitter.com/1.1/search/tweets.json?q=${process.env.KEYWORD}&src=typd`, {})
+  client.get(`${API_URL}/search/tweets.json?q=${process.env.KEYWORD}&src=typd`, {})
     .then(res => {
       const analyzedStatuses = res.statuses.map(({text}) => {
         const {score} = sentiment(text)
