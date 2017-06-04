@@ -1,9 +1,9 @@
-import express from 'express';
-import favicon from 'serve-favicon';
-import logger from 'morgan';
-import cookieParser from 'cookie-parser';
-import bodyParser from 'body-parser';
-import sentiment from 'sentiment';
+import * as express from 'express';
+import * as favicon from 'serve-favicon';
+import * as logger from 'morgan';
+import * as cookieParser from 'cookie-parser';
+import * as bodyParser from 'body-parser';
+import * as sentiment from 'sentiment';
 import * as path from 'path';
 import * as moment from 'moment';
 
