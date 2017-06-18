@@ -1,15 +1,14 @@
-const express = require('express');
-const path = require('path');
-const favicon = require('serve-favicon');
-const logger = require('morgan');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const sentiment = require('sentiment');
-const moment = require('moment');
+import * as express from 'express';
+import * as favicon from 'serve-favicon';
+import * as logger from 'morgan';
+import * as cookieParser from 'cookie-parser';
+import * as bodyParser from 'body-parser';
+import * as sentiment from 'sentiment';
+import * as moment from 'moment';
+import * as path from 'path';
 
 const app = express();
 
-// View engine setup
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -38,10 +37,7 @@ app.post('/posts/analyze', (req, res) => {
 
 // Catch 404 and forward to error handler
 app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
-
-  next(err);
+  next(new Error('Not Found'));
 });
 
 // Error handler
@@ -55,4 +51,4 @@ app.use((err, req, res, next) => {
   res.render('error');
 });
 
-module.exports = app;
+export default app;
