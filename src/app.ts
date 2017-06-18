@@ -4,8 +4,8 @@ import * as logger from 'morgan';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
 import * as sentiment from 'sentiment';
-import * as path from 'path';
 import * as moment from 'moment';
+import * as path from 'path';
 
 const app = express();
 

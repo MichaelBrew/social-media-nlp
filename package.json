@@ -1,13 +1,11 @@
 {
   "name": "social-media-nlp",
   "version": "0.0.1",
-  "private": true,
   "engines": {
     "node": "8.0.0"
   },
   "scripts": {
-    "start": "npm run build:live",
-    "build:live": "nodemon --exec ./node_modules/.bin/ts-node -- ./src/server.ts"
+    "start": "nodemon --exec ./node_modules/.bin/ts-node -- ./src/server.ts"
   },
   "dependencies": {
     "body-parser": "1.16.0",
