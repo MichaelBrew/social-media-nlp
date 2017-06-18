@@ -14,11 +14,14 @@ const client = new Twitter({
 });
 
 function startStreaming() {
-  client.stream('statuses/filter', {track: 'javascript'}, (stream) => {
+  client.stream('statuses/filter', {track: 'realDonaldTrump'}, (stream) => {
     stream.on('data', (event) => {
       if (event) {
         const {score} = sentiment(event.text);
-        console.log(`TEXT: ${event.text}; SCORE: ${score}`)
+
+        if (score > 5 || score < -5) {
+          console.log(`TEXT: ${event.text}; SCORE: ${score}`);
+        }
       }
     });
 
